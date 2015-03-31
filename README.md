@@ -80,6 +80,9 @@ gradlew assembleRelease
 注意：请不要在AndroidManifest.xml文件中指定渠道名，否则可能导致渠道数据错误。
 
 ```java
+// 获取渠道名
+String channle = ChannelUtils.getChannel(this);
+
 // 友盟
 AnalyticsConfig.setChannel(String channel);
 
