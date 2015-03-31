@@ -88,10 +88,10 @@ class MultiChannelPlugin implements Plugin<Project> {
                                 )
 
                             }
+                            // delete pkg
+                            variant.getOutputs().get(0).getOutputFile().delete()
                         }
                     }
-                    variant.getOutputs().get(0).getOutputFile().delete()
-
                 }
             }
 
