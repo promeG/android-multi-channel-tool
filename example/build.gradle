@@ -1,0 +1,93 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.github.promeg:android-multi-channel-plugin:0.1'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'android-multi-channel'
+
+
+repositories {
+    jcenter()
+    mavenLocal()
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    productFlavors{
+        inside{}
+        outside{}
+    }
+
+    signingConfigs {
+        // Never upload your keystore & password to VCS
+        debug {
+            storeFile file("DebugKeyStore.jks")
+            storePassword "123456"
+            keyAlias "debugkey"
+            keyPassword "123456"
+        }
+
+        release {
+            storeFile file("ReleaseKeyStore.jks")
+            storePassword "123456"
+            keyAlias "releasekey"
+            keyPassword "123456"
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.github.promeg.multichannel.example"
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile project(':Multi-channel-tool')
+}
+
+
+multiFlavors{
+    prefix = "A_";
+    subfix = "_B";
+    defaultSigningConfig = android.signingConfigs.release
+    channelConfig {
+        inside {
+            // override default signing config
+            signingConfig = android.signingConfigs.debug
+            childFlavors = ["c1", "c2"]
+        }
+
+        outside {
+            // using default signing config
+            childFlavors = ["cc1", "cc2"]
+        }
+
+        notexist {
+            childFlavors = ["ccc1", "ccc2"]
+        }
+    }
+}

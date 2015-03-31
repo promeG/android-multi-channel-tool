@@ -1,0 +1,95 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+group = rootProject.ext.groupName
+version = rootProject.ext.releaseVersion
+
+
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = [
+                    'src/main/groovy',
+                    'src/main/java'
+            ]
+        }  // compile everything in src/ with groovy
+        java { srcDirs = []}    // no source dirs for the java compiler
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile 'com.android.tools.build:gradle:1.1.0'
+    compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
+}
+
+
+// custom tasks for creating source jars
+task sourcesJar(type: Jar, dependsOn:classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+// add source jar tasks as artifacts
+artifacts { archives sourcesJar }
+
+// upload to local
+uploadArchives {
+    repositories { mavenLocal() }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            if (plugins.hasPlugin('war')) {
+                from components.web
+            } else {
+                from components.java
+            }
+
+            Artifact sourcesJar
+            Artifact javadocJar
+
+            artifactId 'android-multi-channel-plugin'
+        }
+    }
+}
+
+bintray {
+    user = bintray_user //this usually comes from gradle.properties file in ~/.gradle
+    key = bintray_api_key //this usually comes from gradle.properties file in ~/.gradle
+    publications = ['mavenJava'] //When uploading Maven-based publication files
+    dryRun = false //Whether to run this as dry-run, without deploying
+    publish = true //If version should be auto published after an upload
+    pkg {
+        repo = 'maven'
+        name = 'android-multi-channel-plugin'
+        desc = 'Android multi-channel generator for android developers.'
+        websiteUrl = 'https://github.com/promeG/android-multi-channel-tool'
+        issueTrackerUrl = 'https://github.com/promeG/android-multi-channel-tool/issues'
+        vcsUrl = 'https://github.com/promeG/android-multi-channel-tool.git'
+        licenses = ['Apache-2.0']
+        labels = ['multi-channel', 'umeng','mta','mtj' , 'android']
+        publicDownloadNumbers = true
+        //Optional version descriptor
+        version {
+            name = rootProject.ext.releaseVersion //Bintray logical version name
+            released  = new SimpleDateFormat('yyyy-MM-dd\'T\'HH:mm:ss.SSSZZ').format(new Date()) //2 possible values: date in the format of 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ' OR a java.util.Date instance
+            vcsTag = '1.0.0'
+        }
+    }
+}

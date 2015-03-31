@@ -1,0 +1,3 @@
+include ':example', ':Multi-channel-tool'
+include ':android-multi-channel-plugin'
+
