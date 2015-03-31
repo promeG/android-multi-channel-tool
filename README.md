@@ -81,7 +81,7 @@ gradlew assembleRelease
 
 ```java
 // 获取渠道名
-String channle = ChannelUtils.getChannel(this);
+String channel = ChannelUtils.getChannel(this);
 
 // 友盟
 AnalyticsConfig.setChannel(String channel);
