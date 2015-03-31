@@ -12,18 +12,6 @@ version = rootProject.ext.releaseVersion
 targetCompatibility = JavaVersion.VERSION_1_7
 sourceCompatibility = JavaVersion.VERSION_1_7
 
-sourceSets {
-    main {
-        groovy {
-            srcDirs = [
-                    'src/main/groovy',
-                    'src/main/java'
-            ]
-        }  // compile everything in src/ with groovy
-        java { srcDirs = []}    // no source dirs for the java compiler
-    }
-}
-
 repositories {
     mavenLocal()
     mavenCentral()
@@ -38,14 +26,21 @@ dependencies {
 }
 
 
-// custom tasks for creating source jars
-task sourcesJar(type: Jar, dependsOn:classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+// custom tasks for creating source/javadoc jars
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
 }
 
-// add source jar tasks as artifacts
-artifacts { archives sourcesJar }
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+// add javadoc/source jar tasks as artifacts
+artifacts {
+    archives sourcesJar, javadocJar
+}
 
 // upload to local
 uploadArchives {
@@ -55,14 +50,10 @@ uploadArchives {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            if (plugins.hasPlugin('war')) {
-                from components.web
-            } else {
-                from components.java
-            }
+            from components.java
 
-            Artifact sourcesJar
-            Artifact javadocJar
+            artifact sourcesJar
+            artifact javadocJar
 
             artifactId 'android-multi-channel-plugin'
         }

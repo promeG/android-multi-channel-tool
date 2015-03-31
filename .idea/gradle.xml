@@ -8,8 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/Multi-channel-tool" />
             <option value="$PROJECT_DIR$/android-multi-channel-plugin" />
+            <option value="$PROJECT_DIR$/android-multi-channel-plugin-lib" />
             <option value="$PROJECT_DIR$/example" />
           </set>
         </option>

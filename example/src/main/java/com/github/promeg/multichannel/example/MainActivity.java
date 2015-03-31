@@ -17,6 +17,15 @@ public class MainActivity extends ActionBarActivity {
         TextView textView = new TextView(this);
         textView.setText("Channel: " + ChannelUtils.getChannel(this));
 
+        // umeng
+        // AnalyticsConfig.setChannel(String channel);
+
+        // 腾讯云分析
+        // StatConfig.setInstallChannel(String channel);
+
+        // 百度移动统计
+        // StatService.setAppChannel(android.content.Context context, java.lang.String appChannel, boolean saveChannelWithCode);
+
         setContentView(textView);
     }
 

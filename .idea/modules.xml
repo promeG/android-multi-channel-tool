@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Multi-channel-tool/Multi-channel-tool.iml" filepath="$PROJECT_DIR$/Multi-channel-tool/Multi-channel-tool.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-multi-channel-plugin/android-multi-channel-plugin.iml" filepath="$PROJECT_DIR$/android-multi-channel-plugin/android-multi-channel-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Multi-channel-tool/android-multi-channel-plugin-lib.iml" filepath="$PROJECT_DIR$/Multi-channel-tool/android-multi-channel-plugin-lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-multi-channel-tool.iml" filepath="$PROJECT_DIR$/android-multi-channel-tool.iml" />
       <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
     </modules>
